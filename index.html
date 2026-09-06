@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edison Wu | Production Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-color: #050505;
+            --card-bg: #0e0e0e;
+            --accent: #d4af37; /* 質感香檳金 */
+            --accent-hover: #f3e5ab;
+            --text-main: #f5f5f5;
+            --text-sub: #999999;
+            --border: #222222;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 頂部奢華金色背景光暈 */
+        .ambient-glow {
+            position: fixed;
+            top: -200px; right: -200px;
+            width: 600px; height: 600px;
+            background: var(--accent);
+            opacity: 0.05;
+            filter: blur(120px);
+            border-radius: 50%;
+            z-index: -1;
+            pointer-events: none;
+            animation: pulse 8s ease-in-out infinite alternate;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.03; }
+            100% { transform: scale(1.25); opacity: 0.08; }
+        }
+
+        /* Header / Hero */
+        header {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+        header p.subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            letter-spacing: 5px;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(3rem, 7vw, 6rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        header p.desc {
+            color: var(--text-sub);
+            font-size: 1.2rem;
+            max-width: 600px;
+            letter-spacing: 1px;
+        }
+
+        .container { max-width: 1150px; margin: 0 auto; padding: 0 2rem; }
+
+        section { padding: 5rem 0; border-top: 1px solid var(--border); }
+        
+        h2.section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            color: #fff;
+        }
+        h2.section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--border), transparent);
+        }
+        h2.section-title span { color: var(--accent); }
+
+        /* About Me 區塊樣式 */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        .about-text p {
+            color: var(--text-sub);
+            font-size: 1.05rem;
+            margin-bottom: 1.2rem;
+            line-height: 1.8;
+        }
+        .about-text p strong {
+            color: #fff;
+        }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .skill-badge {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-family: 'Cinzel', serif;
+            color: var(--accent);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* Showreel 影片區 */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .video-wrapper:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+        .video-wrapper iframe {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
+        }
+
+        /* 經驗 Grid 排版 */
+        .exp-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.5rem;
+        }
+        .exp-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.8rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .exp-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 3px; height: 100%;
+            background: var(--border);
+            transition: background 0.3s ease;
+        }
+        .exp-card:hover {
+            transform: translateY(-6px);
+            border-color: #333;
+            background: #121212;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.08);
+        }
+        .exp-card:hover::before {
+            background: var(--accent);
+        }
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .exp-date {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent);
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 0.25rem 0.8rem;
+            border-radius: 20px;
+            letter-spacing: 1px;
+            font-family: 'Cinzel', serif;
+        }
+        .exp-card h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.4rem;
+        }
+        .exp-card p {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            margin-bottom: 1.2rem;
+        }
+        .exp-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.2s ease;
+            margin-top: auto;
+        }
+        .exp-link:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        /* 聯絡區 */
+        .contact-section {
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg-color) 0%, var(--card-bg) 100%);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            padding: 5rem 2rem;
+            margin: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .contact-section h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+        .contact-section p {
+            color: var(--text-sub);
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+        }
+        .btn-contact {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--accent);
+            color: #050505;
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 800;
+            font-family: 'Cinzel', serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
+        }
+        .btn-contact:hover {
+            background: var(--accent-hover);
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #555;
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            header { min-height: 60vh; padding: 4rem 1rem 2rem; }
+            .about-content { grid-template-columns: 1fr; }
+            .exp-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-glow"></div>
+
+    <header>
+        <p class="subtitle">Production Portfolio</p>
+        <h1>EDISON <span>WU</span></h1>
+        <p class="desc">Cinematography, Camera Operation & Production Crew based in Hong Kong.</p>
+    </header>
+
+    <div class="container">
+        
+        <section style="border-top: none;">
+            <h2 class="section-title">About <span>Me</span></h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Hello, I'm <strong>Edison Wu (WU Ka Ching)</strong>. Currently pursuing a BFA in Film and Television (Year 1) at the <strong>Hong Kong Academy for Performing Arts (HKAPA)</strong>, following my Higher Diploma in Creative Film Production (BUAF) at Hong Kong Baptist University.</p>
+                    <p>Passionate about all aspects of on-set production, I specialize in <strong>Cinematography, Lighting, and Sound</strong>. With extensive practical experience across commercial productions, MVs, and films, I am most frequently active in the lighting department as an <strong>Electrician and Best Boy</strong>.</p>
+                    <p>I approach every project and frame with <strong>100% dedication and rigorous standards</strong>, constantly pushing myself to elevate the craft and deliver exceptional visual results.</p>
+                </div>
+                <div class="skills-grid">
+                    <div class="skill-badge">Cinematography</div>
+                    <div class="skill-badge">Gaffer & Lighting</div>
+                    <div class="skill-badge">Camera Operation</div>
+                    <div class="skill-badge">Location Sound</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Show<span>reel</span></h2>
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allowfullscreen title="Showreel"></iframe>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Selected <span>Experience</span></h2>
+            <div class="exp-grid">
+                
+                <div class="exp-card">
+                    <div>
+                        <div class="exp-header"><span class="exp-date">2026-08</span></div>
+                        <h3>Ariston Specialties LLC Event</h3>
+                        <p>Camera Operator</p>
+                    </div>
+                    <a href="https://www.facebook.com/share/v/1DDhLrANwV/" target="_blank" class="exp-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 查看連結</a>
+                </div>
+
+                <div class="exp-card">
+                    <div>
+                        <div class="exp-header"><span class="exp-date">2026-08</span></div>
+                        <h3>迪士尼 TVC</h3>
+                        <p>Best Boy</p>
+                    </div>
+                </div>
+
+                <div class="exp-card">
+                    <div>
+                        <div class="exp-header"><span class="exp-date">2026-07</span></div>
+                        <h3>《狩謊》</h3>
+                        <p>Electrician</p>
+                    </div>
+                </div>
+
+                <div class="exp-card">
+                    <div>
+                        <div class="exp-header"><span class="exp-date">2026-03</span></div>
+                        <h3>2026 MEGA DARTS TOURNAMENT</h3>
+                        <p>Camera Operator</p>
+                    </div>
+                    <a href="https://youtu.be/n0DPJom1qj0?si=yjRc9kACx0uuvLYh" target="_blank" class="exp-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 查看連結</a>
+                </div>
+
+                <div class="exp-card">
+                    <div>
+                        <div class="exp-header"><span class="exp-date">2026-02</span></div>
+                        <h3>廠商會中學校慶短片</h3>
+                        <p>Camera Operator</p>
+                    </div>
+                    <a href="https://drive.google.com/file/d/1c8L6B3e25HBMOJ9bHrVwJZqZVFlgBg_S/view" target="_blank" class="exp-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 查看連結</a>
+                </div>
+
+                <div class="exp-card">
+                    <div>
+                        <div class="exp-header"><span class="exp-date">2026-01</span></div>
+                        <h3>千之味 crossover 零瀟角</h3>
+                        <p>Social Media 拍攝</p>
+                    </div>
+                    <a href="https://www.instagram.com/reel/DUMvRTiklKi/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==" target="_blank" class="exp-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 查看連結</a>
+                </div>
+
+                <div class="exp-card">
+                    <div>
+                        <div class="exp-header"><span class="exp-date">2025-11</span></div>
+                        <h3>第十三屆微電影「創+作」支援計劃（音樂篇）專業組《君莫來》</h3>
+                        <p>Boom Operator</p>
+                    </div>
+                </div>
+
+                <div class="exp-card">
+                    <div>
+                        <div class="exp-header"><span class="exp-date">2025-09</span></div>
+                        <h3>IdG Bubble 《Bubble Me》MV 拍攝</h3>
+                        <p>Best Boy</p>
+                    </div>
+                    <a href="https://www.youtube.com/watch?si=HxRGcKG5asGLXTjH&v=i94giV1TeJw&feature=youtu.be" target="_blank" class="exp-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 查看連結</a>
+                </div>
+
+                <div class="exp-card">
+                    <div>
+                        <div class="exp-header"><span class="exp-date">2025-08</span></div>
+                        <h3>LIAM, VITO$ 《你知我會過得更好 》MV 拍攝</h3>
+                        <p>Best Boy</p>
+                    </div>
+                    <a href="https://www.youtube.com/watch?v=GiPQ0o4GAV8&list=RDGiPQ0o4GAV8&start_radio=1" target="_blank" class="exp-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 查看連結</a>
+                </div>
+
+                <div class="exp-card">
+                    <div>
+                        <div class="exp-header"><span class="exp-date">2025-04</span></div>
+                        <h3>第十九屆鮮浪潮國際短片節《與林默娘對談》</h3>
+                        <p>Electrician</p>
+                    </div>
+                </div>
+
+                <div class="exp-card">
+                    <div>
+                        <div class="exp-header"><span class="exp-date">2025-02</span></div>
+                        <h3>《看我今天怎麼說》首映禮</h3>
+                        <p>Highlight 拍攝</p>
+                    </div>
+                    <a href="https://www.youtube.com/watch?si=Yhuk0OHHyJhQIRP3&v=UIKVAcLbp4A&feature=youtu.be" target="_blank" class="exp-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 查看連結</a>
+                </div>
+
+                <div class="exp-card">
+                    <div>
+                        <div class="exp-header"><span class="exp-date">2025-02</span></div>
+                        <h3>陽光鋁窗公司</h3>
+                        <p>小型企業探訪 & 宣傳短片 Production</p>
+                    </div>
+                    <a href="https://www.facebook.com/sunshinewindowman/videos/1014247820638319/?rdid=HOI3IGWnF1ppOMIB#" target="_blank" class="exp-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 查看連結</a>
+                </div>
+
+                <div class="exp-card">
+                    <div>
+                        <div class="exp-header"><span class="exp-date">2025-01</span></div>
+                        <h3>《曾經擁有》首映禮</h3>
+                        <p>Highlight 拍攝</p>
+                    </div>
+                    <a href="https://youtu.be/0z6W4Wm0Y0k?si=GI0cXFmqA0Hfp6T7" target="_blank" class="exp-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 查看連結</a>
+                </div>
+
+                <div class="exp-card">
+                    <div>
+                        <div class="exp-header"><span class="exp-date">2024-12</span></div>
+                        <h3>City Oasis Fitness</h3>
+                        <p>小型企業探訪 & 宣傳短片 Production</p>
+                    </div>
+                    <a href="https://www.youtube.com/watch?v=ta5sAIZQRd4" target="_blank" class="exp-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 查看連結</a>
+                </div>
+
+                <div class="exp-card">
+                    <div>
+                        <div class="exp-header"><span class="exp-date">2024-12</span></div>
+                        <h3>DE STIJL</h3>
+                        <p>小型企業探訪 & 宣傳短片 Production</p>
+                    </div>
+                    <a href="https://youtube.com/watch?si=n7kjG0FwYQ50PJRt&v=jR3PLx8Lbtg&feature=youtu.be" target="_blank" class="exp-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 查看連結</a>
+                </div>
+
+                <div class="exp-card">
+                    <div>
+                        <div class="exp-header"><span class="exp-date">2024-12</span></div>
+                        <h3>Grace Art</h3>
+                        <p>小型企業探訪 & 宣傳短片 Production</p>
+                    </div>
+                    <a href="https://www.youtube.com/watch?v=T3cgs3wMc4I" target="_blank" class="exp-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 查看連結</a>
+                </div>
+
+                <div class="exp-card">
+                    <div>
+                        <div class="exp-header"><span class="exp-date">2024-12</span></div>
+                        <h3>Mind Matters Academy</h3>
+                        <p>小型企業探訪 & 宣傳短片 Production</p>
+                    </div>
+                    <a href="https://www.youtube.com/watch?v=Z608d9ar-R4" target="_blank" class="exp-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 查看連結</a>
+                </div>
+
+                <div class="exp-card">
+                    <div>
+                        <div class="exp-header"><span class="exp-date">2024-12</span></div>
+                        <h3>Big Day</h3>
+                        <p>Photographer Assistant</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section style="border: none; padding-top: 0;">
+            <div class="contact-section">
+                <h2>Let's Work Together</h2>
+                <p>有興趣合作、索取報價或查詢檔期？歡迎隨時與我聯絡。</p>
+                <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                    <a href="https://wa.me/85269038391" target="_blank" class="btn-contact">
+                        <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                    </a>
+                    <a href="mailto:edisonwu0609@outlook.com" class="btn-contact">
+                        <i class="fa-solid fa-envelope"></i> Email
+                    </a>
+                    <a href="https://instagram.com/edisonwu_hk" target="_blank" class="btn-contact">
+                        <i class="fa-brands fa-instagram"></i> Instagram
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Edison Wu. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
